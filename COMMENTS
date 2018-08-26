@@ -1,0 +1,144 @@
+/* Enter your code here. Read input using Console.ReadLine. Print output using Console.WriteLine. Your class should be named Solution */
+
+/* --- TEST PROMISES THE FOLLOWING FUNCTIONAL RULES ---
+
+1. All order id's will be UNIQUE
+
+ */
+
+
+/* -----  MY ASSUPTIONS  ------
+
+1. As the user enters BUY and SELL orders, the app should keep all orders that are GFD orders in a list
+2. As FULL orders are matched, they should be removed from the list
+3. As PARCIAL orders are matched, the partical order should be reduced but stay in the list and it's counter part removed from the list
+4. Because the GFD orders are 'GOOD FOR THE DAY", the app should timestamp them as if the orders don't get executed within 24 hours, remove them from the list of orders
+5. Because a modify order must be removed from it's original order position for fullfillment, it makes sense to remove the order from the book and insert a "new" order
+6. First column will only have ONE of FIVE values: BUY, SELL, CANCEL, MODIFY, PRINT
+7. The exchange is an in memory app and does not require saving of the data if the app is closed
+
+ */
+
+
+// --- FORMAT ---
+
+//IF in first column BUY or SELL then there are 5 columns for this line
+//Second column will have IOC or GFD
+//Third column is price (integer)
+//Fourth column is Quantity (integer)
+//Fifth column is Order Id - it can be arbitrary words
+
+//If the first column is CANCEL then it has only 2 columns
+//The second column is the Order Id
+
+//--- MODIFY ---
+//If the first column is MODIFY then it has five columns
+//Second column will have the Order ID
+//Third column is BUY or SELL
+//Fourth column is price (integer)
+//Fifth column is Quantity (integer)
+//--- RULES ---
+//If the Order ID doesn't exist - do nothing 
+//If the modify order is an IOC order - it can't be modified
+//A BUY can turn into a SELL and visa versa
+//A MODIFY order LOOSES IT'S PLACE IN THE FULLFILLMENT ORDER AS IF IT WAS PLACED AS A NEW ORDER
+
+//--- PRINT ---
+//If the first column is PRINT then there are no other columns
+//FUNCTION OF PRINT: To print out the current price book in the following format:
+/*
+ * SELL:
+ * price1 qty1
+ * price2 qty2
+ * BUY:
+ * price1 qty1
+ * price2 qty2
+ *
+ * THE ITEMS MUST BE IN PRICE DECREASING ORDER 
+ * IE:
+ * SELL:
+ * 1500 23
+ * 1000 10
+ * BUY:
+ * 5000 5
+ * 1000 500
+ */
+
+//INFORMATION:
+
+//--- ORDER TYPES ---
+//GFD (good for the day) stay in the order book until traded
+//IOC (Insert or Cancel) order - If the order can't be traded immediately, it will be canceled. If it's partially traded, the non-traded part is cancelled.
+
+//--- MATCHING RULE ---
+//If there is a price that someone is willing to buy at an equal or higher from someone's selling price, these two order are traded. THE MATCHING ENGIN SHOULD ALSO PRINT OUT THE INFORMATION ABOUT THE TRADE WHEN IT OCCURES - AUTOMATICALLY!
+//IE - imagin there are two order as noted below
+//BUY GFD 1000 10 order1
+//SELL GFD 1000 10 order20
+//AFTER the second line has been processed then the output to the console should be 
+//TRADE order1 1000 10 order20 1000 10
+//
+//--- RULES ----
+//
+//The matching should be FIFO - to be fair
+//IE:
+//BUY GFD 1000 10 order1
+//BUY GFD 1000 10 order2
+//SELL GFD 900 10 order3
+//The sale should sell to the first buyer's request (order1) then to the next and so on (order2)
+//OUTPUT:
+//TRADE order1 1000 10 order3 900 10 
+//TRADE order2 1000 10 order3 900 10 
+//
+//***IMPORTANT*** The FIFO rule is overridden if the price to buy is higher than another price to buy 
+//IE
+//BUY GFD 1000 10 ORDER1
+//BUY GFD 1010 10 ORDER2
+//SELL GFD 1000 15 ORDER3
+//OUTPUT:
+//TRADE ORDER2 1010 10 ORDER3 1000 10
+//TRADE ORDER1 1000 5 ORDER3 1000 5
+//This would leave ORDER1 with a quantity of 5 to still be left for a matching trade
+
+
+-------------------------------------------------------------------------------------------------------------------------------------
+
+TEST SCRIPT
+
+SELL GFD 200 -10 OR15
+SELL GFD 800 10 OR16
+BUY IOC 10 50 OR100
+BUY GFD 100 10 OR1
+MODIFY OR11 BUY 2000 10
+SELL GFD 1000 10 OR10
+SELL GFD 200 10 OR11
+BUY GFD 700 -20 OR2
+BUY IOC 150 2 OR200
+CANCEL OR100
+CANCEL OR200
+CANCEL OR11
+BUY GFD 800 5 OR3
+SELL GFD 10 5 OR12
+BUY GFD 400 15 OR4
+BUY GFD 1100 20 OR5
+SELL IOC 1000 40 OR300
+BUY IOC 100 4 OR400
+SELL GFD 100 100 OR13
+PRINT
+SELL GFD 100 0 OR14
+BUY GFD 200 30 OR6
+SELL GFD 600 30 OR17
+SELL IOC 600 60 OR500
+BUY GFD 10 50 OR7
+BUY GFD 150 2 OR8
+SELL GFD 1000 40 OR20
+PRINT
+BUY GFD 100 4 OR9
+SELL GFD 600 60 OR18
+SELL GFD 800 80 OR19
+SELL IOC 800 80 OR600
+
+
+-------------------------------------------------------------------------------------------------------------------------------------
+
+
