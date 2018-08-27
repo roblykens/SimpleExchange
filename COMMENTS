@@ -1,21 +1,19 @@
-/* Enter your code here. Read input using Console.ReadLine. Print output using Console.WriteLine. Your class should be named Solution */
-
 /* --- TEST PROMISES THE FOLLOWING FUNCTIONAL RULES ---
 
-1. All order id's will be UNIQUE
+	1. All order id's will be UNIQUE
 
- */
+*/
 
 
 /* -----  MY ASSUPTIONS  ------
 
-1. As the user enters BUY and SELL orders, the app should keep all orders that are GFD orders in a list
-2. As FULL orders are matched, they should be removed from the list
-3. As PARCIAL orders are matched, the partical order should be reduced but stay in the list and it's counter part removed from the list
-4. Because the GFD orders are 'GOOD FOR THE DAY", the app should timestamp them as if the orders don't get executed within 24 hours, remove them from the list of orders
-5. Because a modify order must be removed from it's original order position for fullfillment, it makes sense to remove the order from the book and insert a "new" order
-6. First column will only have ONE of FIVE values: BUY, SELL, CANCEL, MODIFY, PRINT
-7. The exchange is an in memory app and does not require saving of the data if the app is closed
+	1. As the user enters BUY and SELL orders, the app should keep all orders that are GFD orders in a list
+	2. As FULL orders are matched, they should be removed from the list
+	3. As PARCIAL orders are matched, the partical order should be reduced but stay in the list and it's counter part removed from the list
+	4. Because the GFD orders are 'GOOD FOR THE DAY", the app should timestamp them as if the orders don't get executed within 24 hours, remove them from the list of orders
+	5. Because a modify order must be removed from it's original order position for fullfillment, it makes sense to remove the order from the book and insert a "new" order
+	6. First column will only have ONE of FIVE values: BUY, SELL, CANCEL, MODIFY, PRINT
+	7. The exchange is an in memory app and does not require saving of the data if the app is closed
 
  */
 
